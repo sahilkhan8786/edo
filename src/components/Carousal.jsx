@@ -1,44 +1,46 @@
 import { motion, useTransform, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Carousal = () => {
     return <HorizontalScrollCarousel />;
 };
 
 const HorizontalScrollCarousel = () => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: targetRef,
     });
 
-    // Move x axis for the scroll
-    const x = useTransform(scrollYProgress, [0, 0.8], ["100%", "-40%"]);
 
-    // Control the scale and position of the last image
-    const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 2]); // Zoom last image from 1 to 2x
 
-    // Scale down other images as you scroll
-    const scaleOthers = useTransform(scrollYProgress, [0.8, 1], [1, 0.5]);
-
-    // Move other images out of the way
-    const yOtherImages = useTransform(scrollYProgress, [0.8, 1], [0, -200]);
-    const xLeft = useTransform(scrollYProgress, [0.8, 1], [0, -300]);
-    const xRight = useTransform(scrollYProgress, [0.8, 1], [0, 300]);
+    // Adjust scrolling logic to ensure all images scroll
+    const x = useTransform(scrollYProgress, [0, 1], ["100%", windowWidth >= 768 ? '-50%' : '-80%']);
+    const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 1.5]);
+    const translateLast = useTransform(scrollYProgress, [0.8, 1], [0, 0]); // Keep it centered
 
     return (
-        <section ref={targetRef} className="relative h-[200vh]">
+        <section ref={targetRef} className="relative h-[150vh]">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex ">
+                <motion.div style={{ x }} className="flex">
                     {cards.map((card, index) => (
                         <Card
                             key={card.id}
                             card={card}
                             isLast={index === cards.length - 1}
                             scaleLast={scaleLast}
-                            scaleOthers={scaleOthers}
-                            yOtherImages={yOtherImages}
-                            xLeft={xLeft}
-                            xRight={xRight}
+                            translateLast={translateLast}
                         />
                     ))}
                 </motion.div>
@@ -47,26 +49,14 @@ const HorizontalScrollCarousel = () => {
     );
 };
 
-const Card = ({
-    card,
-    isLast,
-    scaleLast,
-    scaleOthers,
-    yOtherImages,
-    xLeft,
-    xRight,
-}) => {
-    // Apply different transforms for the last card and others
+const Card = ({ card, isLast, scaleLast }) => {
     const positionStyles = isLast
-        ? { scale: scaleLast } // Zoom in the last card
-        : card.id % 2 === 0
-            ? { y: yOtherImages, x: xRight, scale: scaleOthers } // Move even cards to the right and scale down
-            : { y: yOtherImages, x: xLeft, scale: scaleOthers }; // Move odd cards to the left and scale down
+        ? { scale: scaleLast, translateX: "50%" } // Center the last image
+        : { scale: 1 };
 
     return (
         <motion.div
-            key={card.id}
-            className="group relative w-[80vw] max-w-[450px] h-[40vh] sm:h-[60vh] lg:h-[70vh] overflow-hidden "
+            className="group relative w-[70vw] max-w-[250px] h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden"
             style={positionStyles}
         >
             <img
@@ -88,17 +78,17 @@ const cards = [
     },
     {
         url: "/02.webp",
-        title: "Title 1",
+        title: "Title 2",
         id: 2,
     },
     {
         url: "/03.webp",
-        title: "Title 1",
+        title: "Title 3",
         id: 3,
     },
     {
         url: "/04.webp",
-        title: "Title 1",
+        title: "Title 4",
         id: 4,
     },
 ];

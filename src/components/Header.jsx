@@ -28,7 +28,7 @@ const Header = () => {
     return (
         <header className='max-w-screen-2xl px-4 h-[115px] flex items-center justify-between 2xl:mx-auto border-primary-green border mt-4 rounded-[41px] mx-3'>
             <NavLink to={'/'}>
-                <img src={logo} alt="logo" className='cursor-pointer w-1/2 sm:w-full' />
+                <img src={logo} alt="logo" className='cursor-pointerw-full' />
             </NavLink>
 
             {/* Desktop navigation */}
