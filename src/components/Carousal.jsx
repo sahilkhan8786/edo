@@ -26,14 +26,14 @@ const HorizontalScrollCarousel = () => {
 
 
     // Adjust scrolling logic to ensure all images scroll
-    const x = useTransform(scrollYProgress, [0, 1], ["100%", windowWidth >= 768 ? '-50%' : '-80%']);
+    const x = useTransform(scrollYProgress, [0, 1], ["100%", windowWidth >= 768 ? '-0%' : '-80%']);
     const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 1.5]);
     const translateLast = useTransform(scrollYProgress, [0.8, 1], [0, 0]); // Keep it centered
 
     return (
         <section ref={targetRef} className="relative h-[150vh]">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex">
+                <motion.div style={{ x }} className="flex gap-3">
                     {cards.map((card, index) => (
                         <Card
                             key={card.id}
