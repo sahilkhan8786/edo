@@ -25,7 +25,7 @@ const HorizontalScrollCarousel = () => {
 
     // Adjust scrolling logic to ensure all images scroll
     const x = useTransform(scrollYProgress, [0, 1], ["100%", windowWidth >= 768 ? '-0%' : '-80%']);
-    const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 1.5]);
+    const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 2]);
     const translateLast = useTransform(scrollYProgress, [0.8, 1], [0, 0]); // Keep it centered
 
     return (
