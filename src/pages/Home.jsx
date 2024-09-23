@@ -9,8 +9,8 @@ import Carousal from '../components/Carousal'
 const Home = () => {
     return (
         <>
-            <Hero />
             <Carousal />
+            <Hero />
             <CustomerLogos />
             <ProblemSection />
             <Solutions />

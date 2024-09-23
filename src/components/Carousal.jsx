@@ -23,8 +23,6 @@ const HorizontalScrollCarousel = () => {
         target: targetRef,
     });
 
-
-
     // Adjust scrolling logic to ensure all images scroll
     const x = useTransform(scrollYProgress, [0, 1], ["100%", windowWidth >= 768 ? '-0%' : '-80%']);
     const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 1.5]);
@@ -40,7 +38,7 @@ const HorizontalScrollCarousel = () => {
                             card={card}
                             isLast={index === cards.length - 1}
                             scaleLast={scaleLast}
-                            translateLast={translateLast}
+                            scrollYProgress={scrollYProgress} // Pass scroll progress
                         />
                     ))}
                 </motion.div>
@@ -49,15 +47,18 @@ const HorizontalScrollCarousel = () => {
     );
 };
 
-const Card = ({ card, isLast, scaleLast }) => {
+const Card = ({ card, isLast, scaleLast, scrollYProgress }) => {
     const positionStyles = isLast
         ? { scale: scaleLast, translateX: "50%" } // Center the last image
         : { scale: 1 };
 
+    // Create a fade-in effect based on scroll progress
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+
     return (
         <motion.div
             className="group relative w-[70vw] max-w-[250px] h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden"
-            style={positionStyles}
+            style={{ ...positionStyles, opacity }} // Apply fade-in effect
         >
             <img
                 src={card.url}
@@ -72,22 +73,22 @@ export default Carousal;
 
 const cards = [
     {
-        url: "/01.webp",
+        url: "/01.png",
         title: "Title 1",
         id: 1,
     },
     {
-        url: "/02.webp",
+        url: "/02.png",
         title: "Title 2",
         id: 2,
     },
     {
-        url: "/03.webp",
+        url: "/03.png",
         title: "Title 3",
         id: 3,
     },
     {
-        url: "/04.webp",
+        url: "/04.png",
         title: "Title 4",
         id: 4,
     },
