@@ -83,10 +83,10 @@ const HorizontalScrollCarousel = () => {
     const scaleLast = useTransform(scrollYProgress, [0.8, 1], [1, 1.2]);
 
     return (
-        <section ref={targetRef} className="relative h-[250vh]">
-            <div className="w-full h-screen flex items-center justify-center">
-
+        <section ref={targetRef} className="relative h-[150vh]">
+            <div className="    flex items-center justify-center mt-12 flex-col">
                 <h1 className="text-center size-16 bg-primary-green rounded-full flex items-center justify-center text-white text-2xl animate-bounce cursor-pointer hover:bg-transparent hover:border hover:border-primary-green hover:text-primary-green">˅</h1>
+                <h1 className="text-center  bg-primary-green flex items-center justify-center text-white text-2xl animate-bounce cursor-pointer hover:bg-transparent hover:border hover:border-primary-green hover:text-primary-green p-3 rounded-lg">Scroll To Reveal</h1>
             </div>
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
                 <motion.div style={{ x }} className="flex gap-3">
